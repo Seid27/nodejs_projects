@@ -1,0 +1,15 @@
+//- this file contains a layout for all templates
+
+
+doctype html
+html
+    head
+        //- pass the title dynamically to each template
+        title=`${title}`
+
+    body
+        h1 My Amazing App
+        //- a block is simply a “block” of Pug that a child template may replace
+        block content
+
+    
