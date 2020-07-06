@@ -14,5 +14,9 @@ app.set('view engine', 'pug')
 
 app.use('/',routes); //direct all '/' pathes to routes
 
+// serve static files such as images, JavaScript files and CSS files in Express using 
+// the built-in express.static middleware function
+ app.use(express.static('public'));
+
 //we export our app variable so that it can beimported and used in other files.
 module.exports = app; 

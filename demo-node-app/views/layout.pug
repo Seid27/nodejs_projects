@@ -6,7 +6,8 @@ html
     head
         //- pass the title dynamically to each template
         title=`${title}`
-
+        link(rel='stylesheet', href='/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/css/style.css')
     body
         h1 My Amazing App
         //- a block is simply a “block” of Pug that a child template may replace
