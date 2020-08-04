@@ -1,8 +1,11 @@
 'use strict'
 const Home = require('../lib/controllers/home');
-const Note = require('../lib/controllers/note')
+const Note = require('../lib/controllers/note');
+const Path = require('path');
 
 module.exports = [
+
+
     {
         method:'GET',
         path:'/',
@@ -29,7 +32,7 @@ module.exports = [
         }
     },
     {
-        method:'PUT',
+        method:'POST',
         path:'/note/{slug}',
         handler: Note.update,
         config: {
@@ -42,6 +45,22 @@ module.exports = [
         handler: ()=>Note.delete,
         config: {
             description: 'Deletes the selected note'
+        }
+    },
+
+
+    {
+        // Static files
+        method: 'GET',
+        path: '/{param*}',
+        handler: {
+            directory: {
+                path: Path.join(__dirname,'../static/public')
+            }
+        },
+        
+        config: {
+            description: 'Provides static resources'
         }
     }
 ]   

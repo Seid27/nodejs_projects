@@ -1,4 +1,18 @@
-article 
-    h2: a(href=`/note/${slug}`)=note.title
-    small published on #{note.date}
-    p= note.content
+extends layout
+
+block content
+    header(container)
+    h1 Notes Board
+
+    nav
+        ul
+            li: a(href='/') Home
+            li: a(href='#note-form' rel='modal:open') Update
+            li: a(href=`/note/${data.Notes.slug}/delete`) Delete
+
+
+    form(action=`/note/${data.Notes.slug}` method='POST').note-form#note-form
+        p: input(name='noteTitle' type='text' value=data.Notes.title)
+        p: input(name='noteDescription' type='text' value=data.Notes.description)
+        p: textarea(name='noteContent')= data.Notes.content
+        p._text-right: input(type='submit' value='Update')

@@ -13,7 +13,7 @@ const server = new Hapi.server({
 });
 
 const register = async function () {
-    await server.register(require('vision'))
+    await server.register([require('vision'),require('inert')])
 };
 const start = async function(){
     await server.start();

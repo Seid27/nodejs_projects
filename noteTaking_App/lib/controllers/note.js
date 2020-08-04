@@ -3,16 +3,16 @@
 const Models = require('../models');
 const Slugify = require('slug')
 const Path = require('path');
-const { request } = require('http');
 
 module.exports = {
     // Here we're going to include our functions
     // that will handle each request in the routes.js
     // file.
 
-    create: (request,reply)=>{
-
-        Models.Note.create({
+    create: async(request,reply)=>{
+        let data = {Notes: []}
+        console.log("This is create");
+        await Models.Note.create({
             date: new Date(),
             title: request.payload.noteTitle,
             slug: Slugify(request.payload.noteTitle,{lower:true}),
@@ -22,24 +22,35 @@ module.exports = {
         .then((result)=>{
             // We're going to generate a view later, but
             //for now lets just return the result.
-            console.log(result);
+            data.Notes = result
+            
         })
+
+        return reply.view('note.pug',{data})
         
     },
 
-    read: (request,response)=>{
-        Models.note.findOne({
+    read: async (request,reply)=>{
+        console.log("this is read");
+        let data = {Notes: []}
+        await Models.Note.findOne({
             where: {
                 slug: request.params.slug
             }
         })
         .then((result)=>{
-            console.log(result);
+            data.Notes = result
+            //console.log(result);
         })
+
+        return reply.view('note',{data})
 
     },
 
-    update: ()=>{
+    update: async (request, reply)=>{
+        console.log("this is update");
+        let data = {Notes: []}
+        
         const values = {
             title: request.payload.noteTitle,
             description: request.payload.noteDescription,
@@ -51,14 +62,23 @@ module.exports = {
                 slug: request.params.slug
             }
         }
-        Models.Note.update(values,options)
+
+        console.log("options",options.where);
+
+        await Models.Note.update(values,options)
         .then(()=>{
             Models.Note.findOne(options)
             .then((result)=>{
-                console.log(result);
+                data.Notes = result
             })
         })
+
+
+        return reply.view('note', {data})
     },
+
+
+
     delete: (request,reply)=>{
         Models.Note.destroy({
             where: {
